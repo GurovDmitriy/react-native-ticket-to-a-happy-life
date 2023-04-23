@@ -1,12 +1,66 @@
 import React from "react";
-import { SafeAreaView, StatusBar, StyleSheet, Text, View } from "react-native";
+import {
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { Searchbar } from "react-native-paper";
 import AppRestaurantsInfo from "../components/AppRestaurantsInfo";
+
+const data = [
+  {
+    test: "title1",
+    image: "image",
+  },
+  {
+    test: "title2",
+    image: "image",
+  },
+  {
+    test: "title3",
+    image: "image",
+  },
+  {
+    test: "title4",
+    image: "image",
+  },
+  {
+    test: "title5",
+    image: "image",
+  },
+  {
+    test: "title6",
+    image: "image",
+  },
+  {
+    test: "title7",
+    image: "image",
+  },
+  {
+    test: "title8",
+    image: "image",
+  },
+  {
+    test: "title9",
+    image: "image",
+  },
+  {
+    test: "title10",
+    image: "image",
+  },
+];
 
 function AppRestaurantsScreen() {
   const [searchQuery, setSearchQuery] = React.useState("");
 
   const onChangeSearch = (query: any) => setSearchQuery(query);
+
+  const cards = data.map((card) => (
+    <AppRestaurantsInfo key={card.test} style={styles.card} />
+  ));
 
   return (
     <SafeAreaView style={styles.container}>
@@ -17,9 +71,7 @@ function AppRestaurantsScreen() {
           value={searchQuery}
         />
       </View>
-      <View style={styles.main}>
-        <AppRestaurantsInfo />
-      </View>
+      <ScrollView style={styles.main}>{cards}</ScrollView>
       <View style={styles.footer}>
         <Text>footer</Text>
       </View>
@@ -42,9 +94,13 @@ const styles = StyleSheet.create({
 
   main: {
     flex: 1,
-    height: 100,
     flexGrow: 3,
-    backgroundColor: "#f0dcfd",
+    height: 100,
+    marginBottom: 20,
+  },
+
+  card: {
+    margin: 10,
     marginBottom: 20,
   },
 
