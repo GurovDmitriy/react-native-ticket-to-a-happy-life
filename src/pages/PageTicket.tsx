@@ -7,6 +7,7 @@ function PageTicket(props: any) {
   const { navigation } = props;
 
   const [data, setData] = useState<any>(null);
+  const [error, setError] = useState<any>(null);
 
   const loadData = useCallback(async () => {
     try {
@@ -21,9 +22,11 @@ function PageTicket(props: any) {
         percentChange: ticker.BTC_ETH.percentChange,
       };
 
+      setError(null);
       console.log(dataTable);
       setData(dataTable);
     } catch (err) {
+      setError(err);
       console.error(err);
     }
   }, []);
@@ -38,13 +41,10 @@ function PageTicket(props: any) {
     }, [loadData])
   );
 
-  return (
-    <View style={styles.container}>
-      <Text>Ticket</Text>
-      <Button
-        title="Go to About"
-        onPress={() => navigation.navigate("About")}
-      />
+  const loadingFragment = <Text>Loading...</Text>;
+
+  function getTable(data: any) {
+    return (
       <DataTable>
         <DataTable.Header>
           <DataTable.Title>Name</DataTable.Title>
@@ -55,11 +55,47 @@ function PageTicket(props: any) {
 
         <DataTable.Row>
           <DataTable.Cell>{data.name}</DataTable.Cell>
-          <DataTable.Cell numeric>{data.last}</DataTable.Cell>
-          <DataTable.Cell numeric>{data.highestBid}</DataTable.Cell>
-          <DataTable.Cell numeric>{data.percentChange}</DataTable.Cell>
+          <DataTable.Cell>{data.last}</DataTable.Cell>
+          <DataTable.Cell>{data.highestBid}</DataTable.Cell>
+          <DataTable.Cell>{data.percentChange}</DataTable.Cell>
         </DataTable.Row>
       </DataTable>
+    );
+  }
+
+  function RenderTable() {
+    let component = null;
+
+    if (data) {
+      component = getTable(data);
+    } else {
+      component = loadingFragment;
+    }
+
+    return component;
+  }
+
+  function RenderError() {
+    let component = null;
+
+    if (error) {
+      component = <Text>Error</Text>;
+    }
+
+    return component;
+  }
+
+  // const RenderTable: JSX.Element = getRenderTable();
+
+  return (
+    <View style={styles.container}>
+      <Text>Ticket</Text>
+      <Button
+        title="Go to About"
+        onPress={() => navigation.navigate("About")}
+      />
+      <RenderError />
+      <RenderTable />
     </View>
   );
 }
