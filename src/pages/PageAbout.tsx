@@ -9,7 +9,7 @@ function PageAbout(props: any) {
       <Text>About</Text>
       <Button
         title="Go to Ticket"
-        onPress={() => props.navigation.navigate("Ticket")}
+        onPress={() => navigation.navigate("Ticket")}
       />
     </View>
   );
