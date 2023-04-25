@@ -1,15 +1,33 @@
-import React from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { StyleSheet, View, Button, Text } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 
 function PageTicket(props: any) {
-  const { style } = props;
+  const { navigation } = props;
+
+  const [data, setData] = useState(null);
+
+  const loadData = useCallback(() => {
+    console.log("call api");
+    // setData()
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      const intervalId = setInterval(() => {
+        loadData();
+      }, 5000);
+
+      return () => clearInterval(intervalId);
+    }, [loadData])
+  );
 
   return (
     <View style={styles.container}>
       <Text>Ticket</Text>
       <Button
         title="Go to About"
-        onPress={() => props.navigation.navigate("About")}
+        onPress={() => navigation.navigate("About")}
       />
     </View>
   );
