@@ -1,14 +1,17 @@
 import React from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
+import AppHeader from "../components/AppHeader";
+import AppContent from "../components/AppContent";
 
 function PageAbout(props: any) {
   const { navigation } = props;
 
   return (
     <View style={styles.container}>
-      <Text>About</Text>
+      <AppHeader>About</AppHeader>
+      <AppContent>Ticket to a happy life</AppContent>
       <Button
-        title="Go to Ticket"
+        title="Pull Ticket"
         onPress={() => navigation.navigate("Ticket")}
       />
     </View>
