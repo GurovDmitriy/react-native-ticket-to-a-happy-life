@@ -17,13 +17,13 @@ function reducer(state: any, action: any) {
       return {
         ...state,
         pending: true,
-        error: null,
       };
 
     case "setTableSuccess":
       return {
         ...state,
         entities: action.payload,
+        error: null,
         pending: false,
       };
 
@@ -56,14 +56,15 @@ function ContainerTicket(props: any) {
       );
 
       const ticker = await response.json();
-      const dataTable = {
-        name: ticker.BTC_ETH.id,
-        last: ticker.BTC_ETH.last,
-        highestBid: ticker.BTC_ETH.highestBid,
-        percentChange: ticker.BTC_ETH.percentChange,
-      };
+      const dataTable = [
+        {
+          name: ticker.BTC_ETH.id,
+          last: ticker.BTC_ETH.last,
+          highestBid: ticker.BTC_ETH.highestBid,
+          percentChange: ticker.BTC_ETH.percentChange,
+        },
+      ];
 
-      console.log(dataTable);
       dispatch({ type: "setTableSuccess", payload: dataTable });
     } catch (err) {
       console.error(err);
@@ -81,11 +82,16 @@ function ContainerTicket(props: any) {
 
   useFocusEffect(runFetch);
 
-  function RenderTable() {
+  function renderTable() {
     let component = null;
 
     if (state.entities) {
-      component = <AppTable data={state.entities} />;
+      component = (
+        <AppTable
+          data={state.entities}
+          titleList={["name", "last", "highestBid"]}
+        />
+      );
     } else {
       component = <AppLoading>Loading...</AppLoading>;
     }
@@ -93,7 +99,7 @@ function ContainerTicket(props: any) {
     return component;
   }
 
-  function RenderError() {
+  function renderError() {
     let component = null;
 
     if (state.error) {
@@ -105,8 +111,8 @@ function ContainerTicket(props: any) {
 
   return (
     <>
-      <RenderError />
-      <RenderTable />
+      {renderError()}
+      {renderTable()}
     </>
   );
 }

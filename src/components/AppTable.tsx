@@ -1,24 +1,39 @@
 import { DataTable } from "react-native-paper";
 import React from "react";
+import { View, Text } from "react-native";
 
 function AppTable(props: any) {
-  const { data } = props;
+  const { data, header, footer, titleList } = props;
+
+  console.log("render");
+
+  function renderTitleList(titleList: string[]) {
+    return titleList.map((title: string) => {
+      return <DataTable.Title key={title}>{title}</DataTable.Title>;
+    });
+  }
+
+  function renderRowList(data: any[], titleList: any[]) {
+    return data.map((row: any) => {
+      return (
+        <DataTable.Row key={row.name}>
+          {renderCellList(row, titleList)}
+        </DataTable.Row>
+      );
+    });
+  }
+
+  function renderCellList(row: any, titleList: any[]) {
+    return titleList.map((title: any) => {
+      return <DataTable.Cell key={title}>{row[title]}</DataTable.Cell>;
+    });
+  }
 
   return (
     <DataTable>
-      <DataTable.Header>
-        <DataTable.Title>Name</DataTable.Title>
-        <DataTable.Title>Last</DataTable.Title>
-        <DataTable.Title>HighestBid</DataTable.Title>
-        <DataTable.Title>PercentChange</DataTable.Title>
-      </DataTable.Header>
+      <DataTable.Header>{renderTitleList(titleList)}</DataTable.Header>
 
-      <DataTable.Row>
-        <DataTable.Cell>{data.name}</DataTable.Cell>
-        <DataTable.Cell>{data.last}</DataTable.Cell>
-        <DataTable.Cell>{data.highestBid}</DataTable.Cell>
-        <DataTable.Cell>{data.percentChange}</DataTable.Cell>
-      </DataTable.Row>
+      {renderRowList(data, titleList)}
     </DataTable>
   );
 }
