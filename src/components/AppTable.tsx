@@ -1,41 +1,50 @@
 import { DataTable } from "react-native-paper";
-import React from "react";
-import { View, Text } from "react-native";
+import React, { memo, useMemo } from "react";
+import { StyleSheet, View } from "react-native";
 
 function AppTable(props: any) {
   const { data, header, footer, titleList } = props;
 
-  console.log("render");
+  const titles = renderTitleList();
+  const rows = renderRowList();
 
-  function renderTitleList(titleList: string[]) {
+  function renderTitleList() {
     return titleList.map((title: string) => {
       return <DataTable.Title key={title}>{title}</DataTable.Title>;
     });
   }
 
-  function renderRowList(data: any[], titleList: any[]) {
+  function renderRowList() {
+    console.log("render");
     return data.map((row: any) => {
       return (
-        <DataTable.Row key={row.name}>
-          {renderCellList(row, titleList)}
-        </DataTable.Row>
+        <DataTable.Row key={row.name}>{renderCellList(row)}</DataTable.Row>
       );
     });
   }
 
-  function renderCellList(row: any, titleList: any[]) {
+  function renderCellList(row: any) {
     return titleList.map((title: any) => {
       return <DataTable.Cell key={title}>{row[title]}</DataTable.Cell>;
     });
   }
 
   return (
-    <DataTable>
-      <DataTable.Header>{renderTitleList(titleList)}</DataTable.Header>
-
-      {renderRowList(data, titleList)}
-    </DataTable>
+    <View style={styles.container}>
+      {header}
+      <DataTable>
+        <DataTable.Header>{titles}</DataTable.Header>
+        {rows}
+      </DataTable>
+      {footer}
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+  },
+});
 
 export default AppTable;

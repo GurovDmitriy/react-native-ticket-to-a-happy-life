@@ -9,7 +9,7 @@ import { StyleSheet, View, Button, Text } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import AppLoading from "../components/AppLoading";
 import AppTable from "../components/AppTable";
-import AppError from "../components/AppError";
+import AppHeader from "../components/AppHeader";
 
 function reducer(state: any, action: any) {
   switch (action.type) {
@@ -43,9 +43,10 @@ const initState = {
 };
 
 function ContainerTicket(props: any) {
-  const { navigation } = props;
-
   const [state, dispatch] = useReducer(reducer, initState);
+  const titleList = ["id", "last", "highestBid"];
+
+  const table = renderTable();
 
   const loadData = useCallback(async () => {
     try {
@@ -56,14 +57,8 @@ function ContainerTicket(props: any) {
       );
 
       const ticker = await response.json();
-      const dataTable = [
-        {
-          name: ticker.BTC_ETH.id,
-          last: ticker.BTC_ETH.last,
-          highestBid: ticker.BTC_ETH.highestBid,
-          percentChange: ticker.BTC_ETH.percentChange,
-        },
-      ];
+      const dataTable = [ticker.BTC_ETH];
+      console.log(dataTable);
 
       dispatch({ type: "setTableSuccess", payload: dataTable });
     } catch (err) {
@@ -86,35 +81,32 @@ function ContainerTicket(props: any) {
     let component = null;
 
     if (state.entities) {
-      component = (
-        <AppTable
-          data={state.entities}
-          titleList={["name", "last", "highestBid"]}
-        />
-      );
-    } else {
-      component = <AppLoading>Loading...</AppLoading>;
+      component = getFragmentTable();
+    } else if (!state.entities && state.pending) {
+      component = getFragmentLoading();
     }
 
     return component;
   }
 
-  function renderError() {
-    let component = null;
+  function getFragmentTable() {
+    const header = state.error ? "Error" : "Header";
 
-    if (state.error) {
-      component = <AppError>{state.error}</AppError>;
-    }
-
-    return component;
+    return (
+      <AppTable
+        header={<AppHeader>{header}</AppHeader>}
+        footer={<AppHeader>footer</AppHeader>}
+        data={state.entities}
+        titleList={titleList}
+      />
+    );
   }
 
-  return (
-    <>
-      {renderError()}
-      {renderTable()}
-    </>
-  );
+  function getFragmentLoading() {
+    return <AppLoading>Loading...</AppLoading>;
+  }
+
+  return <>{table}</>;
 }
 
 const styles = StyleSheet.create({
