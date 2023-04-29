@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
 import { StyleSheet } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
-import AppFallback from "../components/AppFallback";
+import AppError from "../components/AppError";
 import AppTable from "../components/AppTable";
-import AppContent from "../components/AppContent";
 import { StoreContext } from "../providers/StoreContext";
 import { observer } from "mobx-react-lite";
 import { from, interval, EMPTY } from "rxjs";
 import { switchMap, catchError } from "rxjs/operators";
 import { getStatus } from "../tools/getStatus";
+import { Card, Text } from "react-native-paper";
 
 const ContainerTicket = observer(function ContainerTicket(props: any) {
   const store = useContext(StoreContext);
@@ -39,12 +39,17 @@ const ContainerTicket = observer(function ContainerTicket(props: any) {
     const isNoStarted = () => !isExistEntities() && useless(store.table);
 
     if (isExistEntities() || isNoUse()) {
-      const header = failure(store.table) ? "Error" : "Header";
+      let header = <Text variant="labelSmall">Header</Text>;
+      if (failure(store.table)) header = <AppError>Error</AppError>;
 
       return (
         <AppTable
-          header={<AppContent>{header}</AppContent>}
-          footer={<AppContent>Footer</AppContent>}
+          header={
+            <Text variant="labelSmall" style={{ color: "red" }}>
+              {header}
+            </Text>
+          }
+          footer={<Text variant="labelSmall">Footer</Text>}
           data={store.table.entities}
           titleList={titleList}
         />
@@ -55,17 +60,24 @@ const ContainerTicket = observer(function ContainerTicket(props: any) {
     if (isNoStarted()) message = "Placeholder";
     if (isError()) message = "Something went wrong";
 
-    return <AppFallback>{message}</AppFallback>;
+    return <AppError>{message}</AppError>;
   }
 
   const table = renderTable();
 
-  return <>{table}</>;
+  return (
+    <>
+      <Text variant="headlineSmall">Ticket</Text>
+      <Card style={styles.container}>
+        <Card.Content>{table}</Card.Content>
+      </Card>
+    </>
+  );
 });
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: "100%",
   },
 });
 

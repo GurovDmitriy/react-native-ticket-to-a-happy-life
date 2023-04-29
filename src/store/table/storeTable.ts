@@ -28,13 +28,13 @@ class StoreTable {
 
       runInAction(() => {
         this.entities = dataTable;
-        this.error = null;
         this.status = ActionStatus.success;
       });
     } catch (err) {
       runInAction(() => {
         this.status = ActionStatus.failure;
         this.error = "error";
+        console.error(err);
       });
     }
   }

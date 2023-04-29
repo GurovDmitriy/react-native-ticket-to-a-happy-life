@@ -1,30 +1,23 @@
 import React from "react";
-import { View, Button, StyleSheet } from "react-native";
-import AppContent from "../components/AppContent";
-import { observer } from "mobx-react-lite";
+import { View, StyleSheet } from "react-native";
+import ContainerAbout from "../containers/ContainerAbout";
 
-// TODO: rename screen - stack
-// TODO: container for about
-const PageAbout = observer(function PageAbout(props: any) {
+function PageAbout(props: any) {
   const { navigation } = props;
 
   return (
     <View style={styles.container}>
-      <AppContent>About</AppContent>
-      <AppContent>Ticket to a happy life</AppContent>
-      <Button
-        title="Pull Ticket"
-        onPress={() => navigation.navigate("Ticket")}
-      />
+      <ContainerAbout navigation={navigation} />
     </View>
   );
-});
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    padding: 30,
   },
 });
 
