@@ -1,14 +1,16 @@
 import React from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
-import AppHeader from "../components/AppHeader";
+import { View, Button, StyleSheet } from "react-native";
 import AppContent from "../components/AppContent";
+import { observer } from "mobx-react-lite";
 
-function PageAbout(props: any) {
+// TODO: rename screen - stack
+// TODO: container for about
+const PageAbout = observer(function PageAbout(props: any) {
   const { navigation } = props;
 
   return (
     <View style={styles.container}>
-      <AppHeader>About</AppHeader>
+      <AppContent>About</AppContent>
       <AppContent>Ticket to a happy life</AppContent>
       <Button
         title="Pull Ticket"
@@ -16,7 +18,7 @@ function PageAbout(props: any) {
       />
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {

@@ -1,7 +1,7 @@
-import tableStore from "./tableStore";
+import storeTable from "./table/storeTable";
 
 const store = {
-  table: tableStore,
+  table: storeTable,
 };
 
 export default store;

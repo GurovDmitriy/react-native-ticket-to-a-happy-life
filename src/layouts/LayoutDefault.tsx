@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 const Tab = createBottomTabNavigator();
 
+// TODO: rename screen - stack
 function LayoutDefault() {
   return (
     <Tab.Navigator>

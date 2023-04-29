@@ -1,14 +1,15 @@
 import React from "react";
 import { StyleSheet, View, Button, Text } from "react-native";
-import AppHeader from "../components/AppHeader";
+import AppContent from "../components/AppContent";
 import ContainerTicket from "../containers/ContainerTable";
 
+// TODO: rename screen - stack
 function PageTicket(props: any) {
   const { navigation } = props;
 
   return (
     <View style={styles.container}>
-      <AppHeader>Ticket</AppHeader>
+      <AppContent>Ticket</AppContent>
       <ContainerTicket />
       <Button title="About" onPress={() => navigation.navigate("About")} />
     </View>

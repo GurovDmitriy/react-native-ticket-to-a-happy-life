@@ -1,113 +1,67 @@
-import React, {
-  useCallback,
-  useEffect,
-  useReducer,
-  useRef,
-  useState,
-} from "react";
-import { StyleSheet, View, Button, Text } from "react-native";
+import React, { useContext } from "react";
+import { StyleSheet } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
-import AppLoading from "../components/AppLoading";
+import AppFallback from "../components/AppFallback";
 import AppTable from "../components/AppTable";
-import AppHeader from "../components/AppHeader";
+import AppContent from "../components/AppContent";
+import { StoreContext } from "../providers/StoreContext";
+import { observer } from "mobx-react-lite";
+import { from, interval, EMPTY } from "rxjs";
+import { switchMap, catchError } from "rxjs/operators";
+import { getStatus } from "../tools/getStatus";
 
-function reducer(state: any, action: any) {
-  switch (action.type) {
-    case "setTableStart":
-      return {
-        ...state,
-        pending: true,
-      };
-
-    case "setTableSuccess":
-      return {
-        ...state,
-        entities: action.payload,
-        error: null,
-        pending: false,
-      };
-
-    case "setTableFailure":
-      return {
-        ...state,
-        pending: false,
-        error: action.payload,
-      };
-  }
-}
-
-const initState = {
-  entities: null,
-  pending: false,
-  error: null,
-};
-
-function ContainerTicket(props: any) {
-  const [state, dispatch] = useReducer(reducer, initState);
+const ContainerTicket = observer(function ContainerTicket(props: any) {
+  const store = useContext(StoreContext);
   const titleList = ["id", "last", "highestBid"];
+
+  const { useless, pending, failure } = getStatus();
+
+  useFocusEffect(() => {
+    const fetchData$ = interval(5000)
+      .pipe(
+        switchMap(() => {
+          return from(store.table.fetchData()).pipe(catchError(() => EMPTY));
+        })
+      )
+      .subscribe();
+
+    return () => fetchData$.unsubscribe();
+  });
+
+  function renderTable() {
+    const component = null;
+    let message = "Unknown Error";
+
+    const isExistEntities = () => Boolean(store.table.entities);
+    const isFirstFetch = () => !isExistEntities() && pending(store.table);
+    const isError = () => !isExistEntities() && failure(store.table);
+    const isNoUse = () => isExistEntities() && useless(store.table);
+    const isNoStarted = () => !isExistEntities() && useless(store.table);
+
+    if (isExistEntities() || isNoUse()) {
+      const header = failure(store.table) ? "Error" : "Header";
+
+      return (
+        <AppTable
+          header={<AppContent>{header}</AppContent>}
+          footer={<AppContent>Footer</AppContent>}
+          data={store.table.entities}
+          titleList={titleList}
+        />
+      );
+    }
+
+    if (isFirstFetch()) message = "Loading...";
+    if (isNoStarted()) message = "Placeholder";
+    if (isError()) message = "Something went wrong";
+
+    return <AppFallback>{message}</AppFallback>;
+  }
 
   const table = renderTable();
 
-  const loadData = useCallback(async () => {
-    try {
-      dispatch({ type: "setTableStart", payload: null });
-
-      const response = await fetch(
-        "https://poloniex.com/public?command=returnTicker&currencyPair=BTC_ETH"
-      );
-
-      const ticker = await response.json();
-      const dataTable = [ticker.BTC_ETH];
-      console.log(dataTable);
-
-      dispatch({ type: "setTableSuccess", payload: dataTable });
-    } catch (err) {
-      console.error(err);
-      dispatch({ type: "setTableFailure", payload: "Error" });
-    }
-  }, []);
-
-  const runFetch: any = useCallback(() => {
-    const timerId = setInterval(() => {
-      loadData();
-    }, 5000);
-
-    return () => clearInterval(timerId);
-  }, [loadData]);
-
-  useFocusEffect(runFetch);
-
-  function renderTable() {
-    let component = null;
-
-    if (state.entities) {
-      component = getFragmentTable();
-    } else if (!state.entities && state.pending) {
-      component = getFragmentLoading();
-    }
-
-    return component;
-  }
-
-  function getFragmentTable() {
-    const header = state.error ? "Error" : "Header";
-
-    return (
-      <AppTable
-        header={<AppHeader>{header}</AppHeader>}
-        footer={<AppHeader>footer</AppHeader>}
-        data={state.entities}
-        titleList={titleList}
-      />
-    );
-  }
-
-  function getFragmentLoading() {
-    return <AppLoading>Loading...</AppLoading>;
-  }
-
   return <>{table}</>;
-}
+});
 
 const styles = StyleSheet.create({
   container: {

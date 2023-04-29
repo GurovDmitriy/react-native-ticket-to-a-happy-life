@@ -1,7 +1,7 @@
 import { action, makeObservable, observable, runInAction } from "mobx";
-import { ActionStatus } from "./types";
+import { ActionStatus } from "../types";
 
-class TableStore {
+class StoreTable {
   entities: any = null;
   status: ActionStatus = ActionStatus.useless;
   error: string | null = null;
@@ -40,6 +40,6 @@ class TableStore {
   }
 }
 
-const tableStore = new TableStore();
+const storeTable = new StoreTable();
 
-export default tableStore;
+export default storeTable;
