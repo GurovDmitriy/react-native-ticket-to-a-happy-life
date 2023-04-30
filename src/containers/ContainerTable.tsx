@@ -1,4 +1,10 @@
-import React, { useContext } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { StyleSheet } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import AppError from "../components/AppError";
@@ -9,27 +15,63 @@ import { from, interval, EMPTY } from "rxjs";
 import { switchMap, catchError } from "rxjs/operators";
 import { getStatus } from "../tools/getStatus";
 import { Card, Text } from "react-native-paper";
+import settings from "../tools/settings";
 
-const ContainerTicket = observer(function ContainerTicket(props: any) {
+const ContainerTable = observer(function ContainerTicket(props: any) {
+  const titleList = settings.TITLE_LIST;
   const store = useContext(StoreContext);
-  const titleList = ["id", "last", "highestBid"];
-
+  const [isMounted, setIsMounted] = useState(false);
   const { useless, pending, failure } = getStatus();
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await store.table.fetchData();
+        setIsMounted(true);
+      } catch {
+        setIsMounted(false);
+      }
+    };
+
+    fetchData();
+  }, [store.table]);
+
   useFocusEffect(() => {
-    const fetchData$ = interval(5000)
+    const fetchDataSub = interval(5000)
       .pipe(
         switchMap(() => {
-          return from(store.table.fetchData()).pipe(catchError(() => EMPTY));
+          if (isMounted) {
+            return from(store.table.fetchData());
+          } else {
+            return EMPTY;
+          }
         })
       )
       .subscribe();
 
-    return () => fetchData$.unsubscribe();
+    return () => {
+      fetchDataSub.unsubscribe();
+    };
   });
 
+  const getFragmentTable = useCallback(() => {
+    let header = <Text variant="labelSmall">Header</Text>;
+    const footer = <Text variant="labelSmall">Copyright MIT License</Text>;
+
+    if (store.table.error) header = <AppError>Error</AppError>;
+
+    return (
+      <AppTable
+        header={header}
+        footer={footer}
+        data={store.table.entities}
+        titleList={titleList}
+      />
+    );
+  }, [store.table.entities, store.table.error, titleList]);
+
   function renderTable() {
-    const component = null;
+    let component = null;
     let message = "Unknown Error";
 
     const isExistEntities = () => Boolean(store.table.entities);
@@ -39,28 +81,20 @@ const ContainerTicket = observer(function ContainerTicket(props: any) {
     const isNoStarted = () => !isExistEntities() && useless(store.table);
 
     if (isExistEntities() || isNoUse()) {
-      let header = <Text variant="labelSmall">Header</Text>;
-      if (failure(store.table)) header = <AppError>Error</AppError>;
+      component = getFragmentTable();
+    } else {
+      if (isFirstFetch()) message = "Loading...";
+      if (isNoStarted()) message = "Placeholder";
+      if (isError()) message = "Something went wrong";
 
-      return (
-        <AppTable
-          header={
-            <Text variant="labelSmall" style={{ color: "red" }}>
-              {header}
-            </Text>
-          }
-          footer={<Text variant="labelSmall">Footer</Text>}
-          data={store.table.entities}
-          titleList={titleList}
-        />
-      );
+      component = getFragmentFallback(message);
     }
 
-    if (isFirstFetch()) message = "Loading...";
-    if (isNoStarted()) message = "Placeholder";
-    if (isError()) message = "Something went wrong";
+    return component;
+  }
 
-    return <AppError>{message}</AppError>;
+  function getFragmentFallback(message: string) {
+    return <Text>{message}</Text>;
   }
 
   const table = renderTable();
@@ -81,4 +115,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ContainerTicket;
+export default ContainerTable;

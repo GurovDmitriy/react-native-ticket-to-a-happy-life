@@ -1,5 +1,7 @@
 import { action, makeObservable, observable, runInAction } from "mobx";
 import { ActionStatus } from "../types";
+import api from "../../api";
+import settings from "../../tools/settings";
 
 class StoreTable {
   entities: any = null;
@@ -19,16 +21,14 @@ class StoreTable {
     this.status = ActionStatus.pending;
 
     try {
-      const response = await fetch(
-        "https://poloniex.com/public?command=returnTicker&currencyPair=BTC_ETH"
-      );
-
-      const ticker = await response.json();
-      const dataTable = [ticker.BTC_ETH];
+      const tickerList = await api.ticket.getList({
+        nameList: settings.NAMES_TICKERS,
+      });
 
       runInAction(() => {
-        this.entities = dataTable;
+        this.entities = tickerList;
         this.status = ActionStatus.success;
+        this.error = null;
       });
     } catch (err) {
       runInAction(() => {

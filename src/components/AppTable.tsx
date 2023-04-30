@@ -1,14 +1,12 @@
 import { DataTable } from "react-native-paper";
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { v4 as uuidv4 } from "uuid";
 
 function AppTable(props: any) {
   const { data, header, footer, titleList } = props;
-  const [keys] = useState(data.map(() => uuidv4()));
 
-  // TODO: check render twice
-  console.log("render");
+  // TODO: check first render twice
+  // console.log("render");
 
   function renderTitleList() {
     return titleList.map((title: string) => {
@@ -17,10 +15,8 @@ function AppTable(props: any) {
   }
 
   function renderRowList() {
-    return data.map((row: any, index: number) => {
-      return (
-        <DataTable.Row key={keys[index]}>{renderCellList(row)}</DataTable.Row>
-      );
+    return data.map((row: any) => {
+      return <DataTable.Row key={row.id}>{renderCellList(row)}</DataTable.Row>;
     });
   }
 
