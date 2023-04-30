@@ -1,15 +1,11 @@
-export default function (appFetch: any, options: any, baseURL: string) {
+export default function (baseURL: string) {
   return {
-    async getList(payload: any) {
-      const nameList: string[] = payload.nameList;
+    async getList(payload: PayloadGetListType): Promise<TicketType[]> {
+      const nameList = payload.nameList;
 
-      const response = await appFetch(
-        `${baseURL}/public?command=returnTicker`,
-        {
-          ...options,
-          method: "GET",
-        }
-      );
+      const response = await fetch(`${baseURL}/public?command=returnTicker`, {
+        method: "GET",
+      });
 
       // TODO: dirty, no time to parse api service((...
       const tickerList = await response.json();
@@ -24,3 +20,21 @@ export default function (appFetch: any, options: any, baseURL: string) {
     },
   };
 }
+
+export type TicketType = {
+  id: number;
+  last: string;
+  lowestAsk: string;
+  highestBid: string;
+  percentChange: string;
+  baseVolume: string;
+  quoteVolume: string;
+  isFrozen: string;
+  postOnly: string;
+  high24hr: string;
+  low24hr: string;
+};
+
+type PayloadGetListType = {
+  nameList: string[];
+};
