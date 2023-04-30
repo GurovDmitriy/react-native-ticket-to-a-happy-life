@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import AppError from "../components/AppError";
@@ -37,7 +31,7 @@ const ContainerTable = observer(function ContainerTicket(props: any) {
   }, [store.table]);
 
   useFocusEffect(() => {
-    const fetchDataSub = interval(5000)
+    const fetchDataSub = interval(settings.DELAY)
       .pipe(
         switchMap(() => {
           if (isMounted) {
@@ -70,6 +64,10 @@ const ContainerTable = observer(function ContainerTicket(props: any) {
     );
   }, [store.table.entities, store.table.error, titleList]);
 
+  function getFragmentFallback(message: string) {
+    return <Text>{message}</Text>;
+  }
+
   function renderTable() {
     let component = null;
     let message = "Unknown Error";
@@ -91,10 +89,6 @@ const ContainerTable = observer(function ContainerTicket(props: any) {
     }
 
     return component;
-  }
-
-  function getFragmentFallback(message: string) {
-    return <Text>{message}</Text>;
   }
 
   const table = renderTable();
