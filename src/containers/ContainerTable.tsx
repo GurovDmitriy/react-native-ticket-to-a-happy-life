@@ -1,14 +1,14 @@
+import { useFocusEffect } from "@react-navigation/native";
+import { observer } from "mobx-react-lite";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
-import { useFocusEffect } from "@react-navigation/native";
+import { Card, Text } from "react-native-paper";
+import { EMPTY, from, interval } from "rxjs";
+import { switchMap } from "rxjs/operators";
 import AppError from "../components/AppError";
 import AppTable from "../components/AppTable";
 import { StoreContext } from "../providers/StoreContext";
-import { observer } from "mobx-react-lite";
-import { from, interval, EMPTY } from "rxjs";
-import { switchMap, catchError } from "rxjs/operators";
 import { getStatus } from "../tools/getStatus";
-import { Card, Text } from "react-native-paper";
 import settings from "../tools/settings";
 
 const ContainerTable = observer(function ContainerTicket() {

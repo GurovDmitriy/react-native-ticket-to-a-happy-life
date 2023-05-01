@@ -1,7 +1,7 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
-import ContainerAbout from "../containers/ContainerAbout";
 import { StackNavigationProp } from "@react-navigation/stack";
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import ContainerAbout from "../containers/ContainerAbout";
 import { RootStackParamList } from "../layouts/LayoutDefault";
 
 function PageAbout(props: PageAboutPropsI) {

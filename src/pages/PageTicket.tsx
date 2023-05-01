@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import ContainerTicket from "../containers/ContainerTable";
+
 function PageTicket() {
   return (
     <View style={styles.container}>

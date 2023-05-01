@@ -1,6 +1,6 @@
 import React from "react";
-import { Text } from "react-native-paper";
 import { StyleSheet } from "react-native";
+import { Text } from "react-native-paper";
 
 function AppError(props: AppErrorPropsI) {
   const { children } = props;

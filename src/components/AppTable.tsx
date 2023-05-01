@@ -1,6 +1,6 @@
-import { DataTable } from "react-native-paper";
 import React from "react";
 import { StyleSheet, View } from "react-native";
+import { DataTable } from "react-native-paper";
 
 function AppTable<T extends AppTablePropsI>(props: AppTablePropsI) {
   const { data, header, footer, titleList } = props;
@@ -40,6 +40,7 @@ function AppTable<T extends AppTablePropsI>(props: AppTablePropsI) {
 
 interface AppTableItemI {
   id: number | string;
+
   [key: string]: any;
 }
 

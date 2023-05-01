@@ -1,8 +1,8 @@
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import React from "react";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import PageAbout from "../pages/PageAbout";
 import PageTicket from "../pages/PageTicket";
-import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 export type RootStackParamList = {
   About: undefined;

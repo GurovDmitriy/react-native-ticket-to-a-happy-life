@@ -1,8 +1,8 @@
 import { action, makeObservable, observable, runInAction } from "mobx";
-import { ActionStatus } from "../types";
 import api from "../../api";
-import settings from "../../tools/settings";
 import { TicketType } from "../../api/ticket";
+import settings from "../../tools/settings";
+import { ActionStatus } from "../types";
 
 class StoreTable {
   entities: TicketType[] | null = null;

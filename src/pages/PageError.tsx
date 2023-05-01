@@ -1,6 +1,6 @@
-import { StyleSheet, View } from "react-native";
 import React from "react";
-import { Card, Text, Button } from "react-native-paper";
+import { StyleSheet, View } from "react-native";
+import { Button, Card, Text } from "react-native-paper";
 
 const PageError = (props: { error: Error; resetError: () => void }) => {
   console.error(props.error);
