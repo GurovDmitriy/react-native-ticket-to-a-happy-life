@@ -1,6 +1,6 @@
-import React from "react";
-import { Text, Card, Button } from "react-native-paper";
 import { StackNavigationProp } from "@react-navigation/stack";
+import React from "react";
+import { Button, Card, Text } from "react-native-paper";
 import { RootStackParamList } from "../layouts/LayoutDefault";
 
 function ContainerAbout(props: ContainerAboutPropsI) {
