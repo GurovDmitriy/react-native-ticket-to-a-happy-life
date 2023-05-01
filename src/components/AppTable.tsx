@@ -1,6 +1,12 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
 import { DataTable } from "react-native-paper";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { styled } from "styled-components/native";
+
+const StyledView = styled.View`
+  width: 100%;
+`;
 
 function AppTable<T extends AppTablePropsI>(props: AppTablePropsI) {
   const { data, header, footer, titleList } = props;
@@ -27,14 +33,14 @@ function AppTable<T extends AppTablePropsI>(props: AppTablePropsI) {
   const rows = renderRowList();
 
   return (
-    <View style={styles.container}>
+    <StyledView>
       {header}
       <DataTable>
         <DataTable.Header>{titles}</DataTable.Header>
         {rows}
       </DataTable>
       {footer}
-    </View>
+    </StyledView>
   );
 }
 
@@ -50,11 +56,5 @@ export interface AppTablePropsI {
   footer: React.ReactNode;
   titleList: string[];
 }
-
-const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-  },
-});
 
 export default AppTable;

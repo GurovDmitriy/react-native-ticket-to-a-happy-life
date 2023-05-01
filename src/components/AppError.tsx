@@ -1,24 +1,20 @@
 import React from "react";
-import { StyleSheet } from "react-native";
 import { Text } from "react-native-paper";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { styled } from "styled-components/native";
+
+const StyledText = styled(Text)`
+  background-color: #ff7f7f;
+  color: #ffffff;
+  padding-left: 10px;
+`;
 
 function AppError(props: AppErrorPropsI) {
   const { children } = props;
 
-  return (
-    <Text style={styles.container} variant="labelSmall">
-      {children}
-    </Text>
-  );
+  return <StyledText variant="labelSmall">{children}</StyledText>;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#ff7f7f",
-    color: "#ffffff",
-    paddingLeft: 10,
-  },
-});
 
 export interface AppErrorPropsI {
   children: React.ReactNode;
