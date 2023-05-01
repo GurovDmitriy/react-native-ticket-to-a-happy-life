@@ -1,6 +1,7 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { observer } from "mobx-react-lite";
 import React, { useCallback, useContext, useEffect, useState } from "react";
+import { StyleSheet } from "react-native";
 import { Card, Text } from "react-native-paper";
 import { EMPTY, from, interval } from "rxjs";
 import { switchMap } from "rxjs/operators";
@@ -9,13 +10,6 @@ import AppTable from "../components/AppTable";
 import { StoreContext } from "../providers/StoreContext";
 import { getStatus } from "../tools/getStatus";
 import settings from "../tools/settings";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import { styled } from "styled-components/native";
-
-const StyledCard = styled(Card)`
-  width: 100%;
-`;
 
 const ContainerTable = observer(function ContainerTicket() {
   const titleList = settings.TITLE_LIST;
@@ -102,11 +96,17 @@ const ContainerTable = observer(function ContainerTicket() {
   return (
     <>
       <Text variant="headlineSmall">Ticket</Text>
-      <StyledCard>
+      <Card style={styles.container}>
         <Card.Content>{table}</Card.Content>
-      </StyledCard>
+      </Card>
     </>
   );
+});
+
+const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+  },
 });
 
 export default ContainerTable;

@@ -1,27 +1,14 @@
 import React from "react";
+import { StyleSheet, View } from "react-native";
 import { Button, Card, Text } from "react-native-paper";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import { styled } from "styled-components/native";
-
-const StyledView = styled.View`
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  padding: 30px;
-`;
-
-const StyledCard = styled(Card)`
-  width: 100%;
-`;
 
 const PageError = (props: { error: Error; resetError: () => void }) => {
   console.error(props.error);
 
   return (
-    <StyledView>
+    <View style={styles.container}>
       <Text variant="headlineSmall">Error</Text>
-      <StyledCard>
+      <Card style={styles.card}>
         <Card.Content>
           <Text variant="bodySmall">Something happened!</Text>
           <Text variant="bodySmall">{props.error.toString()}</Text>
@@ -29,9 +16,22 @@ const PageError = (props: { error: Error; resetError: () => void }) => {
         <Card.Actions>
           <Button onPress={() => props.resetError()}>Try again</Button>
         </Card.Actions>
-      </StyledCard>
-    </StyledView>
+      </Card>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 30,
+  },
+
+  card: {
+    width: "100%",
+  },
+});
 
 export default PageError;
