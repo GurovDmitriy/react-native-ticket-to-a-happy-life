@@ -2,7 +2,7 @@ import React from "react";
 import { Text } from "react-native-paper";
 import { StyleSheet } from "react-native";
 
-function AppError(props: any) {
+function AppError(props: AppErrorPropsI) {
   const { children } = props;
 
   return (
@@ -19,5 +19,9 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
 });
+
+export interface AppErrorPropsI {
+  children: React.ReactNode;
+}
 
 export default AppError;

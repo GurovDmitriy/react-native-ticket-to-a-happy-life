@@ -11,7 +11,7 @@ import { getStatus } from "../tools/getStatus";
 import { Card, Text } from "react-native-paper";
 import settings from "../tools/settings";
 
-const ContainerTable = observer(function ContainerTicket(props: any) {
+const ContainerTable = observer(function ContainerTicket() {
   const titleList = settings.TITLE_LIST;
   const store = useContext(StoreContext);
   const [isMounted, setIsMounted] = useState(false);
@@ -58,7 +58,7 @@ const ContainerTable = observer(function ContainerTicket(props: any) {
       <AppTable
         header={header}
         footer={footer}
-        data={store.table.entities}
+        data={store.table.entities!}
         titleList={titleList}
       />
     );

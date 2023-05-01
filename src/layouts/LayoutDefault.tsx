@@ -4,6 +4,11 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
+export type RootStackParamList = {
+  About: undefined;
+  Ticket: undefined;
+};
+
 const Tab = createBottomTabNavigator();
 
 function LayoutDefault() {

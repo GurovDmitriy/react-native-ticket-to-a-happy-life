@@ -1,12 +1,9 @@
 import { DataTable } from "react-native-paper";
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, View } from "react-native";
 
-function AppTable(props: any) {
+function AppTable<T extends AppTablePropsI>(props: AppTablePropsI) {
   const { data, header, footer, titleList } = props;
-
-  // TODO: check first render twice
-  // console.log("render");
 
   function renderTitleList() {
     return titleList.map((title: string) => {
@@ -15,13 +12,13 @@ function AppTable(props: any) {
   }
 
   function renderRowList() {
-    return data.map((row: any) => {
+    return data.map((row) => {
       return <DataTable.Row key={row.id}>{renderCellList(row)}</DataTable.Row>;
     });
   }
 
-  function renderCellList(row: any) {
-    return titleList.map((title: any) => {
+  function renderCellList(row: AppTableItemI) {
+    return titleList.map((title) => {
       return <DataTable.Cell key={title}>{row[title]}</DataTable.Cell>;
     });
   }
@@ -39,6 +36,18 @@ function AppTable(props: any) {
       {footer}
     </View>
   );
+}
+
+interface AppTableItemI {
+  id: number | string;
+  [key: string]: any;
+}
+
+export interface AppTablePropsI {
+  data: AppTableItemI[];
+  header: React.ReactNode;
+  footer: React.ReactNode;
+  titleList: string[];
 }
 
 const styles = StyleSheet.create({

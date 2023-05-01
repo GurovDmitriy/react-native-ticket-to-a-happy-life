@@ -1,8 +1,10 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import ContainerAbout from "../containers/ContainerAbout";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../layouts/LayoutDefault";
 
-function PageAbout(props: any) {
+function PageAbout(props: PageAboutPropsI) {
   const { navigation } = props;
 
   return (
@@ -20,5 +22,9 @@ const styles = StyleSheet.create({
     padding: 30,
   },
 });
+
+interface PageAboutPropsI {
+  navigation: StackNavigationProp<RootStackParamList, "About">;
+}
 
 export default PageAbout;

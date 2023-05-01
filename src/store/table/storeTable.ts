@@ -2,9 +2,10 @@ import { action, makeObservable, observable, runInAction } from "mobx";
 import { ActionStatus } from "../types";
 import api from "../../api";
 import settings from "../../tools/settings";
+import { TicketType } from "../../api/ticket";
 
 class StoreTable {
-  entities: any = null;
+  entities: TicketType[] | null = null;
   status: ActionStatus = ActionStatus.useless;
   error: string | null = null;
 
@@ -17,7 +18,7 @@ class StoreTable {
     });
   }
 
-  async fetchData(): Promise<any | undefined> {
+  async fetchData(): Promise<void> {
     this.status = ActionStatus.pending;
 
     try {

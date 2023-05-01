@@ -1,7 +1,9 @@
 import React from "react";
 import { Text, Card, Button } from "react-native-paper";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../layouts/LayoutDefault";
 
-function ContainerAbout(props: any) {
+function ContainerAbout(props: ContainerAboutPropsI) {
   const { navigation } = props;
 
   return (
@@ -31,6 +33,10 @@ function ContainerAbout(props: any) {
       </Card>
     </>
   );
+}
+
+interface ContainerAboutPropsI {
+  navigation: StackNavigationProp<RootStackParamList, "About">;
 }
 
 export default ContainerAbout;
