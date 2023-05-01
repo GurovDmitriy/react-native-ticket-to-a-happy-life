@@ -8,6 +8,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "prepare": "husky install",
+    "lint-staged": "lint-staged",
     "lint": "npm run lint:eslint && npm run lint:prettier",
     "lint:eslint": "eslint --fix --ext \".jsx,.js,.ts,.tsx\" --ignore-path .eslintignore .",
     "lint:prettier": "prettier --write \"**/*.{jsx,js,ts,tsx,css,less,scss,html,md}\" --ignore-path .prettierignore"
@@ -47,9 +48,18 @@
     "eslint-plugin-mobx": "^0.0.9",
     "eslint-plugin-react": "^7.32.2",
     "prettier": "^2.8.8",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
+    "prettier-plugin-organize-imports": "^3.2.2"
   },
   "private": true,
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm test"
+    }
+  },
   "lint-staged": {
     "src/**/*.{jsx,js,ts,tsx}": "eslint --fix",
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
