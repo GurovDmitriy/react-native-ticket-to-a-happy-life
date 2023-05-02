@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { DataTable } from "react-native-paper";
 
-function AppTable<T extends AppTablePropsI>(props: AppTablePropsI) {
+function AppTable(props: AppTablePropsI) {
   const { data, header, footer, titleList } = props;
 
   function renderTitleList() {
