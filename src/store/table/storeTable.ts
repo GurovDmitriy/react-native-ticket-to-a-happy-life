@@ -1,11 +1,11 @@
 import { action, makeObservable, observable, runInAction } from "mobx";
 import api from "../../api";
-import { TicketType } from "../../api/ticket";
+import { TickerType } from "../../api/ticker";
 import settings from "../../tools/settings";
 import { ActionStatus } from "../types";
 
 class StoreTable {
-  entities: TicketType[] | null = null;
+  entities: TickerType[] | null = null;
   status: ActionStatus = ActionStatus.useless;
   error: string | null = null;
 
@@ -22,7 +22,7 @@ class StoreTable {
     this.status = ActionStatus.pending;
 
     try {
-      const tickerList = await api.ticket.getList({
+      const tickerList = await api.ticker.getList({
         nameList: settings.NAMES_TICKERS,
       });
 

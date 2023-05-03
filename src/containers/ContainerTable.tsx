@@ -95,7 +95,7 @@ const ContainerTable = observer(function ContainerTicket() {
 
   return (
     <>
-      <Text variant="headlineSmall">Ticket</Text>
+      <Text variant="headlineSmall">Ticker</Text>
       <Card style={styles.container}>
         <Card.Content>{table}</Card.Content>
       </Card>

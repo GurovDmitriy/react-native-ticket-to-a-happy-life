@@ -1,6 +1,6 @@
 import settings from "../tools/settings";
-import ticket from "./ticket";
+import ticker from "./ticker";
 
 export default {
-  ticket: ticket(settings.BASE_URL),
+  ticker: ticker(settings.BASE_URL),
 };

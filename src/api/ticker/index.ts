@@ -1,6 +1,6 @@
 export default function (baseURL: string) {
   return {
-    async getList(payload: PayloadGetListType): Promise<TicketType[]> {
+    async getList(payload: PayloadGetListType): Promise<TickerType[]> {
       const nameList = payload.nameList;
 
       const response = await fetch(`${baseURL}/public?command=returnTicker`, {
@@ -21,7 +21,7 @@ export default function (baseURL: string) {
   };
 }
 
-export type TicketType = {
+export type TickerType = {
   id: number;
   last: string;
   lowestAsk: string;

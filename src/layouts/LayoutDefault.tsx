@@ -2,11 +2,11 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import PageAbout from "../pages/PageAbout";
-import PageTicket from "../pages/PageTicket";
+import PageTicker from "../pages/PageTicker";
 
 export type RootStackParamList = {
   About: undefined;
-  Ticket: undefined;
+  Ticker: undefined;
 };
 
 const Tab = createBottomTabNavigator();
@@ -24,8 +24,8 @@ function LayoutDefault() {
         }}
       />
       <Tab.Screen
-        name="Ticket"
-        component={PageTicket}
+        name="Ticker"
+        component={PageTicker}
         options={{
           tabBarIcon: ({ color, size }) => {
             return <Icon name="ticket-percent" size={size} color={color} />;

@@ -8,7 +8,7 @@ function ContainerAbout(props: ContainerAboutPropsI) {
 
   return (
     <>
-      <Text variant="headlineSmall">Classical history Ticket</Text>
+      <Text variant="headlineSmall">Classical history Ticker</Text>
       <Card>
         <Card.Content>
           <Text variant="bodySmall">
@@ -26,7 +26,7 @@ function ContainerAbout(props: ContainerAboutPropsI) {
           </Text>
         </Card.Content>
         <Card.Actions>
-          <Button onPress={() => navigation.navigate("Ticket")}>
+          <Button onPress={() => navigation.navigate("Ticker")}>
             Pull Ticket
           </Button>
         </Card.Actions>

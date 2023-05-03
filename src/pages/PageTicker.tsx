@@ -1,11 +1,11 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import ContainerTicket from "../containers/ContainerTable";
+import ContainerTable from "../containers/ContainerTable";
 
-function PageTicket() {
+function PageTicker() {
   return (
     <View style={styles.container}>
-      <ContainerTicket />
+      <ContainerTable />
     </View>
   );
 }
@@ -19,4 +19,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PageTicket;
+export default PageTicker;
